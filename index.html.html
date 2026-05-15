@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voortplanting — Planten & Dieren</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --bg: #FAFAF7;
+  --card: #FFFFFF;
+  --text: #1a1a2e;
+  --text-light: #555568;
+  --accent: #2D7D46;
+  --accent-light: #E8F5EC;
+  --accent-dark: #1B5C30;
+  --wrong: #C0392B;
+  --wrong-light: #FDECEA;
+  --border: #E0E0D8;
+  --highlight: #FFF3CD;
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --radius: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== TOP NAV ===== */
+.topnav {
+  position: sticky; top:0; z-index:100;
+  background: var(--card);
+  border-bottom: 2px solid var(--border);
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.topnav h1 {
+  font-size: 18px; font-weight: 800;
+  color: var(--accent-dark);
+  margin-right: auto;
+  white-space: nowrap;
+}
+.topnav button {
+  font-family: inherit;
+  font-size: 14px; font-weight: 700;
+  padding: 8px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: all .15s;
+}
+.topnav button:hover { border-color: var(--accent); color: var(--accent); }
+.topnav button.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar {
+  background: var(--accent-light);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  display: none;
+}
+
+/* ===== CONTAINER ===== */
+.container { max-width: 820px; margin: 0 auto; padding: 24px 16px 80px; }
+
+/* ===== MODULE PANELS ===== */
+.module { display: none; }
+.module.active { display: block; }
+
+/* ===== COURS ===== */
+.topic-nav {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.topic-nav button {
+  font-family: inherit;
+  font-size: 14px; font-weight: 700;
+  padding: 10px 18px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  transition: all .15s;
+}
+.topic-nav button:hover { border-color: var(--accent); }
+.topic-nav button.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.topic-content { display: none; }
+.topic-content.active { display: block; }
+
+.chunk {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.chunk h2 {
+  font-size: 20px; font-weight: 800;
+  color: var(--accent-dark);
+  margin-bottom: 10px;
+  border-bottom: 3px solid var(--accent-light);
+  padding-bottom: 6px;
+}
+.chunk h3 {
+  font-size: 17px; font-weight: 700;
+  color: var(--accent);
+  margin: 14px 0 6px;
+}
+.chunk p { margin-bottom: 10px; }
+
+.key-term {
+  background: var(--highlight);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.def-box {
+  background: var(--accent-light);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 15px;
+}
+.compare-table th {
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 700;
+}
+.compare-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.compare-table tr:nth-child(even) td { background: var(--accent-light); }
+
+/* ===== EXERCICES ===== */
+.ex-header {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px;
+  margin-bottom: 20px;
+}
+.score-box {
+  font-size: 18px; font-weight: 800;
+  color: var(--accent-dark);
+  background: var(--accent-light);
+  padding: 8px 18px;
+  border-radius: 8px;
+}
+.timer-toggle {
+  font-family: inherit;
+  font-size: 14px; font-weight: 600;
+  padding: 8px 14px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  cursor: pointer;
+}
+.timer-display {
+  font-size: 16px; font-weight: 700;
+  color: var(--wrong);
+  min-width: 60px;
+  text-align: center;
+}
+
+.question-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.question-card.correct { border-color: var(--accent); background: var(--accent-light); }
+.question-card.wrong { border-color: var(--wrong); background: var(--wrong-light); }
+
+.q-number {
+  font-size: 13px; font-weight: 800;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.q-text {
+  font-size: 17px; font-weight: 700;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt-btn {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+  transition: all .15s;
+  line-height: 1.4;
+}
+.opt-btn:hover:not(.chosen) { border-color: var(--accent); background: var(--accent-light); }
+.opt-btn.chosen-correct {
+  border-color: var(--accent); background: var(--accent-light); color: var(--accent-dark);
+}
+.opt-btn.chosen-wrong {
+  border-color: var(--wrong); background: var(--wrong-light); color: var(--wrong);
+}
+.opt-btn.show-correct {
+  border-color: var(--accent); background: var(--accent-light);
+}
+.opt-btn.disabled { pointer-events: none; opacity: .85; }
+
+.feedback {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  display: none;
+}
+.feedback.show { display: block; }
+.feedback.ok { background: var(--accent-light); color: var(--accent-dark); }
+.feedback.nok { background: var(--wrong-light); color: var(--wrong); }
+
+/* fill-in */
+.fill-input {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px 14px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 350px;
+}
+.fill-input:focus { outline: none; border-color: var(--accent); }
+.fill-submit {
+  font-family: inherit;
+  font-size: 15px; font-weight: 700;
+  padding: 10px 20px;
+  border: none; border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* true/false */
+.tf-btns { display: flex; gap: 10px; }
+.tf-btn {
+  font-family: inherit;
+  font-size: 16px; font-weight: 700;
+  padding: 12px 28px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+  transition: all .15s;
+}
+.tf-btn:hover:not(.chosen) { border-color: var(--accent); }
+
+.new-round-btn {
+  font-family: inherit;
+  font-size: 16px; font-weight: 700;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* ===== EXAMEN & CORRECTIF DOWNLOAD ===== */
+.download-section {
+  text-align: center;
+  padding: 40px 20px;
+}
+.download-section h2 {
+  font-size: 22px; font-weight: 800;
+  color: var(--accent-dark);
+  margin-bottom: 10px;
+}
+.download-section p {
+  color: var(--text-light);
+  margin-bottom: 24px;
+  max-width: 500px;
+  margin-left: auto; margin-right: auto;
+}
+.dl-btn {
+  font-family: inherit;
+  font-size: 16px; font-weight: 700;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  margin: 8px;
+  transition: background .15s;
+}
+.dl-btn:hover { background: var(--accent-dark); }
+
+.dl-topic-btns {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:600px) {
+  .topnav { padding: 8px 10px; }
+  .topnav h1 { font-size: 15px; }
+  .topnav button { font-size: 12px; padding: 6px 10px; }
+  .container { padding: 16px 10px 60px; }
+  .chunk { padding: 16px; }
+  body { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="topnav">
+  <h1>Voortplanting</h1>
+  <button class="active" onclick="showModule('cours')">Les</button>
+  <button onclick="showModule('exercices')">Oefeningen</button>
+  <button onclick="showModule('examen')">Examen</button>
+  <button onclick="showModule('correctif')">Correctiesleutel</button>
+</nav>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- MODULE 1: COURS -->
+<!-- ============================================================ -->
+<div class="module active" id="mod-cours">
+  <div class="topic-nav" id="coursTopicNav">
+    <button class="active" onclick="showTopic('t1')">1. Geslachtelijk vs Ongeslachtelijk</button>
+    <button onclick="showTopic('t2')">2. Bloem & organen</button>
+    <button onclick="showTopic('t3')">3. Bestuiving</button>
+    <button onclick="showTopic('t4')">4. Bevruchting & zaad</button>
+    <button onclick="showTopic('t5')">5. Dieren: bevruchting</button>
+    <button onclick="showTopic('t6')">6. Ongeslachtelijk: planten</button>
+    <button onclick="showTopic('t7')">7. Ongeslachtelijk: dieren</button>
+    <button onclick="showTopic('t8')">8. Woordenlijst</button>
+  </div>
+
+  <!-- TOPIC 1 -->
+  <div class="topic-content active" id="t1">
+    <div class="chunk">
+      <h2>Twee manieren van voortplanting</h2>
+      <p>Alle levende wezens planten zich voort. Er zijn precies <span class="key-term">twee manieren</span>: geslachtelijk en ongeslachtelijk.</p>
+    </div>
+    <div class="chunk">
+      <h3>Geslachtelijke voortplanting</h3>
+      <p>Er zijn <span class="key-term">voortplantingscellen</span> nodig: een mannelijke en een vrouwelijke cel. Die versmelten bij de <span class="key-term">bevruchting</span>.</p>
+      <p>De nakomelingen zijn <span class="key-term">allemaal verschillend</span>. Dat is goed: variatie helpt de soort zich aan te passen (evolutie).</p>
+    </div>
+    <div class="chunk">
+      <h3>Ongeslachtelijke voortplanting</h3>
+      <p>Er is maar <span class="key-term">één ouder</span> nodig. Een nieuw organisme groeit uit een <span class="key-term">deel</span> van de ouder.</p>
+      <p>De nakomelingen zijn <span class="key-term">identiek</span> aan de ouder: ze zijn <span class="key-term">klonen</span>.</p>
+    </div>
+    <div class="chunk">
+      <table class="compare-table">
+        <tr><th></th><th>Geslachtelijk</th><th>Ongeslachtelijk</th></tr>
+        <tr><td>Ouders</td><td>2 (mannelijk + vrouwelijk)</td><td>1</td></tr>
+        <tr><td>Cellen</td><td>Voortplantingscellen</td><td>Gewone cellen</td></tr>
+        <tr><td>Bevruchting</td><td>Ja</td><td>Nee</td></tr>
+        <tr><td>Nakomelingen</td><td>Verschillend (variatie)</td><td>Identiek (klonen)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- TOPIC 2 -->
+  <div class="topic-content" id="t2">
+    <div class="chunk">
+      <h2>De bloem = voortplantingsorgaan</h2>
+      <p>Bij de meeste planten speelt de <span class="key-term">bloem</span> de centrale rol. De bloem draagt de mannelijke en vrouwelijke organen.</p>
+    </div>
+    <div class="chunk">
+      <h3>Mannelijk orgaan: de meeldraad</h3>
+      <p>De <span class="key-term">meeldraad</span> bestaat uit een <span class="key-term">helmdraad</span> (steeltje) en een <span class="key-term">helmknop</span> (bovenaan).</p>
+      <p>In de helmknop zitten <span class="key-term">helmhokjes</span>. Daar worden <span class="key-term">stuifmeelkorrels</span> gemaakt.</p>
+      <p>Elke stuifmeelkorrel bevat een <span class="key-term">spermakern</span> = de mannelijke voortplantingscel. De buitenwand is stevig tegen uitdroging.</p>
+    </div>
+    <div class="chunk">
+      <h3>Vrouwelijk orgaan: de stamper</h3>
+      <p>De <span class="key-term">stamper</span> bestaat uit drie delen:</p>
+      <div class="def-box">
+        <strong>Stempel</strong> (bovenaan, kleverig) → <strong>Stijl</strong> (smal verbindingsstuk) → <strong>Vruchtbeginsel</strong> (onderaan, met zaadbeginsels)
+      </div>
+      <p>In de zaadbeginsels worden de <span class="key-term">eicellen</span> gevormd = vrouwelijke voortplantingscellen.</p>
+    </div>
+    <div class="chunk">
+      <h3>Andere bloemdelen</h3>
+      <p><span class="key-term">Kelkbladeren</span>: klein, groen, beschermen de bloemknop. Onopvallend.</p>
+      <p><span class="key-term">Kroonbladeren</span>: groot, kleurrijk, trekken bestuivers aan. Opvallend.</p>
+    </div>
+    <div class="chunk">
+      <h3>Tweeslachtig of eenslachtig?</h3>
+      <p><span class="key-term">Tweeslachtige bloem</span> = heeft meeldraden EN stamper(s) samen in dezelfde bloem.</p>
+      <p><span class="key-term">Eenslachtige bloem</span> = heeft OF meeldraden OF stamper(s), niet allebei.</p>
+    </div>
+  </div>
+
+  <!-- TOPIC 3 -->
+  <div class="topic-content" id="t3">
+    <div class="chunk">
+      <h2>Bestuiving</h2>
+      <div class="def-box">
+        Bestuiving = het overbrengen van <strong>stuifmeel</strong> van een meeldraad naar de <strong>stempel</strong> van een bloem van <strong>dezelfde plantensoort</strong>.
+      </div>
+      <p>Doel: de spermakernen bij de eicellen brengen.</p>
+    </div>
+    <div class="chunk">
+      <h3>Insectenbestuiving (insectenbloeiers)</h3>
+      <p>Planten lokken insecten met:</p>
+      <p>1. <span class="key-term">Nectar</span> — zoete vloeistof als voedsel voor insecten.</p>
+      <p>2. <span class="key-term">Geur</span> — nachtbloeiers lokken nachtinsecten met sterke geur.</p>
+      <p>3. <span class="key-term">Kleurrijke kroonbladeren</span> met <span class="key-term">nectargidsen</span> (patronen/lijntjes).</p>
+      <p>Stuifmeel hecht zich aan het lichaam van het insect. Bij een volgende bloem (zelfde soort!) wordt het afgezet op de stempel.</p>
+    </div>
+    <div class="chunk">
+      <h3>Windbestuiving (windbloeiers)</h3>
+      <p>Windbloeiers produceren <span class="key-term">veel meer</span> en <span class="key-term">lichter</span> stuifmeel. De wind neemt het mee.</p>
+      <p>Onopvallende bloemen — geen kleuren of geur nodig.</p>
+      <div class="def-box">
+        Pollenallergie (hooikoorts) = overgevoeligheid voor stuifmeel in de lucht.
+      </div>
+    </div>
+    <div class="chunk">
+      <h3>Drie vormen van bestuiving</h3>
+      <p><span class="key-term">Zelfbestuiving</span> (A): stuifmeel van meeldraad → stempel van dezélfde bloem.</p>
+      <p><span class="key-term">Buurbestuiving</span> (B): stuifmeel → stempel van een andere bloem op dezélfde plant.</p>
+      <p><span class="key-term">Kruisbestuiving</span> (C): stuifmeel → stempel van een bloem op een ándere plant (zelfde soort). Geeft meeste variatie!</p>
+    </div>
+  </div>
+
+  <!-- TOPIC 4 -->
+  <div class="topic-content" id="t4">
+    <div class="chunk">
+      <h2>Het bevruchtingsproces bij planten</h2>
+      <p>Na bestuiving landt de stuifmeelkorrel op de <span class="key-term">kleverige stempel</span>.</p>
+      <p>De korrel vormt een <span class="key-term">stuifmeelbuis</span> die door de stijl naar beneden groeit, richting het vruchtbeginsel.</p>
+      <p>De <span class="key-term">spermakern</span> reist door de buis, gaat door het <span class="key-term">poortje</span> van het zaadbeginsel en versmelt met de <span class="key-term">eicelkern</span>.</p>
+      <div class="def-box">
+        Bevruchting = versmelting van spermakern + eicelkern → <strong>bevruchte eicel</strong>.
+      </div>
+    </div>
+    <div class="chunk">
+      <h3>Na de bevruchting</h3>
+      <p><span class="key-term">Zaadbeginsel</span> → groeit uit tot een <span class="key-term">zaad</span> (bevat embryo + zaadlobben).</p>
+      <p><span class="key-term">Vruchtbeginsel</span> → groeit uit tot een <span class="key-term">vrucht</span> (beschermt en verspreidt de zaden).</p>
+    </div>
+    <div class="chunk">
+      <h3>Het embryo</h3>
+      <p>Het embryo = babyplantje in het zaad. Het heeft: blaadjes, stengeltje, worteltje.</p>
+      <p>De <span class="key-term">zaadlobben</span> bevatten reservevoedsel voor de kieming.</p>
+    </div>
+    <div class="chunk">
+      <h3>Variatie door DNA</h3>
+      <p>Elke voortplantingscel is <span class="key-term">uniek</span>. Embryo's in zaden van dezelfde vrucht zijn daarom <span class="key-term">verschillend</span>.</p>
+      <p><span class="key-term">DNA</span> = bijzondere molecule in de celkern met erfelijke kenmerken. Unieke combinatie → variatie binnen de soort.</p>
+    </div>
+    <div class="chunk">
+      <h3>Zaadkieming</h3>
+      <p>Zaad + water + warmte → het embryo groeit. Eerst leeft het van het reservevoedsel in de zaadlobben.</p>
+      <p>Zodra de groene blaadjes boven de grond komen → <span class="key-term">fotosynthese</span> neemt het over.</p>
+    </div>
+  </div>
+
+  <!-- TOPIC 5 -->
+  <div class="topic-content" id="t5">
+    <div class="chunk">
+      <h2>Geslachtelijke voortplanting bij dieren</h2>
+      <p>Bij dieren versmelten een <span class="key-term">zaadcel</span> (mannelijk) en een <span class="key-term">eicel</span> (vrouwelijk). Dat kan op twee manieren.</p>
+    </div>
+    <div class="chunk">
+      <h3>Uitwendige bevruchting</h3>
+      <p>Bevruchting <span class="key-term">buiten het lichaam</span>, meestal in water. Denk aan amfibieën (kikkers, padden) en vissen.</p>
+      <p><strong>Voordelen:</strong> groot aantal nakomelingen, snelle verspreiding.</p>
+      <p><strong>Nadelen:</strong> hoge sterfte, afhankelijk van water, onzekere bevruchting, meestal geen ouderzorg.</p>
+      <div class="def-box">
+        Kikkerdril = klomp eieren van een kikker. Paddensnoer = sliert eieren van een pad.
+      </div>
+    </div>
+    <div class="chunk">
+      <h3>Inwendige bevruchting</h3>
+      <p>Bevruchting <span class="key-term">in het lichaam</span> van het vrouwtje. Bij zoogdieren, vogels, reptielen.</p>
+      <p><strong>Voordelen:</strong> hogere kans op succes, bescherming embryo's, ouderzorg.</p>
+      <p><strong>Nadelen:</strong> kleiner aantal nakomelingen, veel energie nodig.</p>
+    </div>
+    <div class="chunk">
+      <table class="compare-table">
+        <tr><th></th><th>Uitwendig</th><th>Inwendig</th></tr>
+        <tr><td>Waar?</td><td>Buiten lichaam (water)</td><td>In lichaam vrouwtje</td></tr>
+        <tr><td>Dieren</td><td>Vissen, amfibieën</td><td>Zoogdieren, vogels, reptielen</td></tr>
+        <tr><td>Aantal jongen</td><td>Heel veel</td><td>Weinig</td></tr>
+        <tr><td>Overleving</td><td>Laag (hoge sterfte)</td><td>Hoog (ouderzorg)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- TOPIC 6 -->
+  <div class="topic-content" id="t6">
+    <div class="chunk">
+      <h2>Ongeslachtelijke voortplanting bij planten</h2>
+      <p>Geen voortplantingscellen, geen bevruchting. De <span class="key-term">dochterplant</span> groeit uit een deel van de <span class="key-term">moederplant</span>. De dochterplant is een <span class="key-term">kloon</span>.</p>
+    </div>
+    <div class="chunk">
+      <h3>Natuurlijke manieren</h3>
+      <p><span class="key-term">Stengelknollen</span> — bv. aardappel. Uit de "ogen" groeien nieuwe planten.</p>
+      <p><span class="key-term">Broedknoppen</span> — kleine plantjes groeien op de bladrand (bv. Kalanchoë).</p>
+      <p><span class="key-term">Bollen</span> — bv. ui, tulp. Nieuwe knopjes groeien uit in de bol.</p>
+      <p><span class="key-term">Uitlopers</span> — bovengrondse stengels die wortel schieten (bv. aardbei).</p>
+      <p><span class="key-term">Wortelstok</span> — ondergrondse stengel waaruit nieuwe scheuten groeien (bv. gember, lelietje-van-dalen).</p>
+    </div>
+    <div class="chunk">
+      <h3>Kunstmatige manieren (mens helpt)</h3>
+      <p><span class="key-term">Enten</span> — een takje (ent) laten vergroeien met de stam van een andere plant (onderstam).</p>
+      <p><span class="key-term">Stekken</span> — afgesneden stuk plant in water of vochtige grond → wortelvorming.</p>
+      <p><span class="key-term">Afleggen</span> — tak ombuigen en een stuk ingraven → wortels groeien, dan afsnijden.</p>
+    </div>
+    <div class="chunk">
+      <h3>Voor- en nadelen</h3>
+      <p><strong>Voordelen:</strong> snel, geen bestuiving nodig, groot aantal dochterplanten, goede eigenschappen bewaard.</p>
+      <p><strong>Nadelen:</strong> identieke nakomelingen = geen variatie, geen evolutie mogelijk. Bij veranderende omstandigheden → massale sterfte.</p>
+    </div>
+  </div>
+
+  <!-- TOPIC 7 -->
+  <div class="topic-content" id="t7">
+    <div class="chunk">
+      <h2>Ongeslachtelijke voortplanting bij dieren</h2>
+      <p>Maar <span class="key-term">één ouder</span> nodig. Nakomelingen zijn klonen. Geen bevruchting.</p>
+    </div>
+    <div class="chunk">
+      <h3>Knopvorming</h3>
+      <p>Een <span class="key-term">uitstulping (knop)</span> groeit uit het lichaam tot een nieuw individu.</p>
+      <p>Voorbeeld: <span class="key-term">zoetwaterpoliep</span> — knop breekt af. <span class="key-term">Steenkoralen</span> — knop blijft vast → kolonie.</p>
+    </div>
+    <div class="chunk">
+      <h3>Fragmentatie</h3>
+      <p>Een <span class="key-term">deel breekt af</span> en groeit uit tot een heel nieuw dier.</p>
+      <p>Voorbeelden: zeester, platworm, steenkoraal, sponsdieren, zeeanemonen, zeekomkommer.</p>
+    </div>
+    <div class="chunk">
+      <h3>Voor- en nadelen</h3>
+      <p><strong>Voordelen:</strong> snel, geen partner nodig, energiezuinig.</p>
+      <p><strong>Nadelen:</strong> kwetsbaarder voor ziekten of veranderingen (geen variatie).</p>
+    </div>
+  </div>
+
+  <!-- TOPIC 8: WOORDENLIJST -->
+  <div class="topic-content" id="t8">
+    <div class="chunk">
+      <h2>Woordenlijst — Thema 2</h2>
+      <p>Klik op een term om de definitie te zien.</p>
+    </div>
+    <div id="woordenlijst-container"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 2: EXERCICES -->
+<!-- ============================================================ -->
+<div class="module" id="mod-exercices">
+  <div class="ex-header">
+    <div>
+      <select id="exTopicSelect" class="timer-toggle" onchange="generateExercises()">
+        <option value="all">Alle topics</option>
+        <option value="t1">Geslachtelijk vs ongeslachtelijk</option>
+        <option value="t2">Bloem & organen</option>
+        <option value="t3">Bestuiving</option>
+        <option value="t4">Bevruchting & zaad</option>
+        <option value="t5">Dieren: bevruchting</option>
+        <option value="t6">Ongeslachtelijk: planten</option>
+        <option value="t7">Ongeslachtelijk: dieren</option>
+      </select>
+    </div>
+    <div class="score-box" id="scoreBox">Score: 0 / 0</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="timer-toggle" onclick="toggleTimer()">Timer <span id="timerState">UIT</span></button>
+      <span class="timer-display" id="timerDisplay">—</span>
+    </div>
+  </div>
+  <div id="exercisesContainer"></div>
+  <button class="new-round-btn" onclick="generateExercises()">Nieuwe vragen laden</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 3: EXAMEN -->
+<!-- ============================================================ -->
+<div class="module" id="mod-examen">
+  <div class="download-section">
+    <h2>Examen downloaden (PDF)</h2>
+    <p>A4-formaat, klaar om af te drukken en met de hand in te vullen. Elke toets staat op 20 punten.</p>
+    <div class="dl-topic-btns">
+      <button class="dl-btn" onclick="downloadExam('all')">Volledige toets (alle topics)</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 4: CORRECTIF -->
+<!-- ============================================================ -->
+<div class="module" id="mod-correctif">
+  <div class="download-section">
+    <h2>Correctiesleutel downloaden (PDF)</h2>
+    <p>Gedetailleerde antwoorden met puntenverdeling.</p>
+    <div class="dl-topic-btns">
+      <button class="dl-btn" onclick="downloadCorrectif()">Correctiesleutel downloaden</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ===== NAVIGATION =====
+function showModule(mod) {
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  document.getElementById('mod-'+mod).classList.add('active');
+  document.querySelectorAll('.topnav button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(mod==='exercices' && document.getElementById('exercisesContainer').innerHTML==='') generateExercises();
+  updateProgress();
+}
+
+function showTopic(id) {
+  document.querySelectorAll('.topic-content').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('#coursTopicNav button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  updateProgress();
+}
+
+function updateProgress() {
+  const bar = document.getElementById('progressBar');
+  const activeMod = document.querySelector('.module.active');
+  if(activeMod.id === 'mod-exercices') {
+    bar.style.display = 'block';
+    const answered = document.querySelectorAll('.question-card.correct, .question-card.wrong').length;
+    const total = document.querySelectorAll('.question-card').length;
+    bar.textContent = `Oefening ${answered} / ${total} beantwoord`;
+  } else if(activeMod.id === 'mod-cours') {
+    bar.style.display = 'block';
+    const active = document.querySelector('.topic-content.active');
+    const topics = document.querySelectorAll('.topic-content');
+    let idx = Array.from(topics).indexOf(active) + 1;
+    bar.textContent = `Topic ${idx} / ${topics.length}`;
+  } else {
+    bar.style.display = 'none';
+  }
+}
+updateProgress();
+
+// ===== WOORDENLIJST =====
+const woordenlijst = [
+  ["Geslachtelijke voortplanting","Voortplantingswijze met voortplantingsorganen die mannelijke en vrouwelijke cellen maken. Altijd bevruchting nodig."],
+  ["Helmknop","Verdikking boven aan de meeldraad, waarin de stuifmeelkorrels worden gevormd."],
+  ["Meeldraad","Mannelijk voortplantingsorgaan bij planten: helmdraad + helmknop. Maakt stuifmeel."],
+  ["Stuifmeelkorrel","Korrel uit de helmknop met een stevige wand. Bevat een spermakern."],
+  ["Spermakern","Mannelijke celkern in een stuifmeelkorrel die versmelt met de eicelkern."],
+  ["Stuifmeel / Pollen","Poederachtige verzameling stuifmeelkorrels."],
+  ["Stamper","Vrouwelijk voortplantingsorgaan bij planten dat de eicel(len) bevat."],
+  ["Stempel","Bovenste, plat en kleverig deel van een stamper."],
+  ["Stijl","Smal verbindingsstuk tussen stempel en vruchtbeginsel."],
+  ["Vruchtbeginsel","Onderste verbreed deel van een stamper. Bevat zaadbeginsels. Wordt na bevruchting een vrucht."],
+  ["Eicel","Vrouwelijke voortplantingscel."],
+  ["Kelkbladeren","Kleine, groene bladeren aan de buitenkant van de bloem. Beschermen de bloemknop."],
+  ["Kroonbladeren","Grote, opvallend gekleurde bloembladeren binnen de kelkbladeren."],
+  ["Tweeslachtige bloem","Bloem met zowel meeldraden als stamper(s)."],
+  ["Eenslachtige bloem","Bloem met óf meeldraden, óf stamper(s)."],
+  ["Bestuiving","Overbrengen van stuifmeel van meeldraad → stempel van dezelfde plantensoort."],
+  ["Insectenbestuiving","Bestuiving door insecten (insectenbloeiers)."],
+  ["Windbestuiving","Bestuiving door wind (windbloeiers)."],
+  ["Nectar","Zoete vloeistof om bestuivers te lokken."],
+  ["Nectargidsen","Patronen op kroonbladeren die insecten naar het midden leiden."],
+  ["Nachtbloeiers","Planten met witte/lichte bloemen die nachtinsecten aantrekken."],
+  ["Zelfbestuiving","Stuifmeel van meeldraad → stempel van dezélfde bloem."],
+  ["Buurbestuiving","Stuifmeel → stempel van andere bloem op dezélfde plant."],
+  ["Kruisbestuiving","Stuifmeel → stempel van bloem op een ándere plant (zelfde soort)."],
+  ["Stuifmeelbuis","Buisvormige uitgroeiing van stuifmeelkorrel, waardoor de spermakern reist."],
+  ["Bevruchting","Versmelting van spermakern/zaadcelkern met eicelkern → bevruchte eicel."],
+  ["Zaad","Uitgegroeid zaadbeginsel: zaadhuid + embryo + zaadlobben."],
+  ["Zaadlob","Deel van zaad met reservevoedsel."],
+  ["Vrucht","Uitgegroeid vruchtbeginsel. Beschermt en verspreidt de zaden."],
+  ["DNA","Bijzondere molecule in de celkern met erfelijke informatie."],
+  ["Ongeslachtelijke voortplanting","Uit een deel van een organisme ontstaat een nieuw organisme. Geen voortplantingscellen of bevruchting."],
+  ["Moederplant","Plant waaruit dochterplanten ontstaan."],
+  ["Dochterplant","Plant die uit deel van moederplant is ontstaan."],
+  ["Kloon","Genetische kopie van moederorganisme."],
+  ["Uitwendige bevruchting","Bevruchting buiten het lichaam, meestal in water (vissen, amfibieën)."],
+  ["Inwendige bevruchting","Bevruchting in het lichaam van het vrouwtje (zoogdieren, vogels, reptielen)."],
+  ["Ouderzorg","Gedrag waarbij ouders voor nakomelingen zorgen."],
+  ["Knopvorming","Ongeslachtelijk: uitstulping groeit uit tot nieuw individu (bv. poliep, koraal)."],
+  ["Fragmentatie","Ongeslachtelijk: deel breekt af en groeit uit tot nieuw dier (bv. zeester, platworm)."],
+  ["Stengelknollen","Bv. aardappel. Uit 'ogen' groeien nieuwe planten."],
+  ["Broedknoppen","Kleine plantjes groeien op bladrand."],
+  ["Bollen","Bv. ui, tulp. Knoppen groeien uit in de bol."],
+  ["Uitlopers","Bovengrondse stengels die wortel schieten (bv. aardbei)."],
+  ["Wortelstok","Ondergrondse stengel met nieuwe scheuten (bv. gember)."],
+  ["Enten","Takje (ent) vergroeien met stam van andere plant (onderstam)."],
+  ["Stekken","Afgesneden plantendeel in water/grond → wortelvorming."],
+  ["Afleggen","Tak ombuigen en deels ingraven → wortels → afsnijden."],
+  ["Pollenallergie / Hooikoorts","Overgevoeligheid voor stuifmeel in de lucht."]
+];
+
+(function buildWoordenlijst(){
+  const c = document.getElementById('woordenlijst-container');
+  woordenlijst.forEach(([term,def]) => {
+    const d = document.createElement('div');
+    d.className = 'chunk';
+    d.style.cursor = 'pointer';
+    d.innerHTML = `<h3 style="margin:0">${term}</h3><p style="display:none;margin-top:8px">${def}</p>`;
+    d.onclick = function(){ const p=this.querySelector('p'); p.style.display = p.style.display==='none'?'block':'none'; };
+    c.appendChild(d);
+  });
+})();
+
+// ===== QUESTION BANK =====
+const allQuestions = [
+  // T1: geslachtelijk vs ongeslachtelijk
+  {t:"t1",type:"mcq",q:"Wat is het belangrijkste verschil tussen geslachtelijke en ongeslachtelijke voortplanting?",
+   opts:["Bij geslachtelijk zijn voortplantingscellen nodig, bij ongeslachtelijk niet","Bij ongeslachtelijk zijn twee ouders nodig","Geslachtelijk geeft identieke nakomelingen","Ongeslachtelijk duurt altijd langer"],
+   ans:0, expl:"Bij geslachtelijke voortplanting versmelten mannelijke en vrouwelijke voortplantingscellen. Bij ongeslachtelijke voortplanting is dat niet nodig."},
+  {t:"t1",type:"tf",q:"Bij ongeslachtelijke voortplanting zijn de nakomelingen identiek aan de ouder (klonen).",ans:true,expl:"Correct! Zonder versmelting van voortplantingscellen krijg je kopieën met dezelfde erfelijke kenmerken."},
+  {t:"t1",type:"tf",q:"Geslachtelijke voortplanting leidt tot identieke nakomelingen.",ans:false,expl:"Fout. Geslachtelijke voortplanting leidt juist tot variatie: elke nakomeling is uniek."},
+  {t:"t1",type:"mcq",q:"Hoeveel ouders zijn nodig bij ongeslachtelijke voortplanting?",opts:["1","2","3","Geen"],ans:0,expl:"Bij ongeslachtelijke voortplanting is maar één ouder nodig."},
+  {t:"t1",type:"fill",q:"Bij geslachtelijke voortplanting versmelten voortplantingscellen. Dit noemen we _____.",ans:["bevruchting"],expl:"Bevruchting = versmelting van mannelijke en vrouwelijke cel."},
+  {t:"t1",type:"mcq",q:"Waarom is variatie bij nakomelingen nuttig voor een soort?",opts:["Het helpt de soort zich aan te passen aan veranderingen (evolutie)","Het maakt de ouders sterker","Het kost minder energie","Er zijn meer klonen mogelijk"],ans:0,expl:"Variatie zorgt ervoor dat sommige nakomelingen beter aangepast zijn als de omstandigheden veranderen."},
+
+  // T2: bloem & organen
+  {t:"t2",type:"mcq",q:"Wat is de functie van de helmknop?",opts:["Stuifmeelkorrels produceren","Eicellen produceren","Nectar maken","De bloem beschermen"],ans:0,expl:"De helmknop is het bovenste deel van de meeldraad waar stuifmeelkorrels worden gevormd."},
+  {t:"t2",type:"fill",q:"De mannelijke voortplantingscel in een stuifmeelkorrel heet de _____.",ans:["spermakern"],expl:"De spermakern zit in de stuifmeelkorrel en versmelt bij bevruchting met de eicelkern."},
+  {t:"t2",type:"mcq",q:"Uit welke drie delen bestaat de stamper?",opts:["Stempel, stijl, vruchtbeginsel","Helmdraad, helmknop, helmhokje","Kelkblad, kroonblad, stempel","Eicel, zaadlob, zaadhuid"],ans:0,expl:"De stamper = stempel (kleverig, bovenaan) + stijl (verbindingsstuk) + vruchtbeginsel (onderaan)."},
+  {t:"t2",type:"tf",q:"Kroonbladeren zijn onopvallend en beschermen de bloemknop.",ans:false,expl:"Fout. Kroonbladeren zijn juist opvallend en kleurrijk — ze trekken bestuivers aan. De kelkbladeren beschermen de bloemknop."},
+  {t:"t2",type:"mcq",q:"Een bloem met zowel meeldraden als stamper(s) is:",opts:["Tweeslachtig","Eenslachtig","Windbloeier","Insectenbloeier"],ans:0,expl:"Tweeslachtig = meeldraden EN stamper(s) in dezelfde bloem."},
+  {t:"t2",type:"fill",q:"De vrouwelijke voortplantingscellen bij planten heten _____.",ans:["eicellen","eicel"],expl:"Eicellen worden gevormd in de zaadbeginsels van het vruchtbeginsel."},
+  {t:"t2",type:"tf",q:"De meeldraad bestaat uit helmdraad en helmknop.",ans:true,expl:"Correct! De helmdraad is het steeltje, de helmknop zit bovenaan."},
+  {t:"t2",type:"mcq",q:"Waar worden de eicellen gevormd?",opts:["In de zaadbeginsels van het vruchtbeginsel","In de helmknop","In de kelkbladeren","In de stijl"],ans:0,expl:"De eicellen zitten in de zaadbeginsels, die zich in het vruchtbeginsel (onderaan de stamper) bevinden."},
+
+  // T3: bestuiving
+  {t:"t3",type:"mcq",q:"Wat is bestuiving?",opts:["Overbrengen van stuifmeel van meeldraad naar stempel","Versmelting van spermakern en eicel","Het groeien van een zaad","Het openen van een bloem"],ans:0,expl:"Bestuiving = transport van stuifmeel naar de stempel van dezelfde plantensoort."},
+  {t:"t3",type:"mcq",q:"Wat produceren insectenbloeiers om insecten te lokken?",opts:["Nectar","Pollen","Zaadlobben","Stuifmeelbuizen"],ans:0,expl:"Nectar is een zoete vloeistof die insecten aantrekt naar de bloem."},
+  {t:"t3",type:"tf",q:"Windbloeiers produceren weinig, zwaar stuifmeel.",ans:false,expl:"Fout. Windbloeiers produceren juist veel en licht stuifmeel zodat de wind het kan verspreiden."},
+  {t:"t3",type:"fill",q:"Patronen op kroonbladeren die insecten naar het midden van de bloem leiden, heten _____.",ans:["nectargidsen"],expl:"Nectargidsen zijn lijnen of stippen op kroonbladeren die als 'wegwijzers' dienen."},
+  {t:"t3",type:"mcq",q:"Bij kruisbestuiving gaat stuifmeel naar:",opts:["Een bloem op een andere plant van dezelfde soort","Dezelfde bloem","Een bloem van een andere soort","De wortel"],ans:0,expl:"Kruisbestuiving = stuifmeel gaat naar een bloem op een ándere plant van dezelfde soort. Dat geeft de meeste variatie."},
+  {t:"t3",type:"tf",q:"Bij zelfbestuiving gaat stuifmeel van de meeldraad naar de stempel van dezelfde bloem.",ans:true,expl:"Correct! Zelfbestuiving = binnen dezelfde bloem."},
+  {t:"t3",type:"mcq",q:"Nachtbloeiers lokken nachtinsecten vooral met:",opts:["Sterke geur en lichte kleuren","Felle rode kleuren","Heel veel nectar op de buitenkant","Geluid"],ans:0,expl:"Nachtbloeiers hebben witte/lichte bloemen die licht reflecteren en een sterke geur."},
+
+  // T4: bevruchting & zaad
+  {t:"t4",type:"mcq",q:"Wat groeit er uit de stuifmeelkorrel na bestuiving?",opts:["Een stuifmeelbuis","Een zaad","Een vrucht","Een wortel"],ans:0,expl:"De stuifmeelkorrel kiemt op de kleverige stempel en vormt een stuifmeelbuis door de stijl naar het vruchtbeginsel."},
+  {t:"t4",type:"fill",q:"Na bevruchting groeit het zaadbeginsel uit tot een _____.",ans:["zaad"],expl:"Het zaadbeginsel → zaad (bevat embryo + zaadlobben)."},
+  {t:"t4",type:"fill",q:"Na bevruchting groeit het vruchtbeginsel uit tot een _____.",ans:["vrucht"],expl:"Het vruchtbeginsel → vrucht (beschermt en verspreidt zaden)."},
+  {t:"t4",type:"tf",q:"Het embryo is een babyplantje in het zaad.",ans:true,expl:"Correct! Het embryo heeft al blaadjes, een stengeltje en een worteltje."},
+  {t:"t4",type:"mcq",q:"Waarom zijn embryo's in zaden van dezelfde vrucht toch verschillend?",opts:["Elke voortplantingscel heeft een unieke combinatie DNA","Ze krijgen verschillend licht","De zaadhuid is anders","Het vruchtbeginsel is anders"],ans:0,expl:"Elke voortplantingscel is uniek door een unieke combinatie van erfelijke kenmerken in het DNA."},
+  {t:"t4",type:"mcq",q:"De zaadlobben bevatten:",opts:["Reservevoedsel voor het embryo","Stuifmeelkorrels","Eicellen","Water"],ans:0,expl:"De zaadlobben voorzien het embryo van voedsel tot de fotosynthese kan beginnen."},
+  {t:"t4",type:"fill",q:"De bijzondere molecule in de celkern die erfelijke informatie draagt, heet _____.",ans:["dna","DNA"],expl:"DNA = molecule in de celkern met alle erfelijke kenmerken."},
+
+  // T5: dieren bevruchting
+  {t:"t5",type:"mcq",q:"Uitwendige bevruchting gebeurt:",opts:["Buiten het lichaam, meestal in water","In het lichaam van het vrouwtje","In een ei","Op het land"],ans:0,expl:"Uitwendige bevruchting = buiten het lichaam, meestal in water (amfibieën, vissen)."},
+  {t:"t5",type:"tf",q:"Bij inwendige bevruchting is er meestal meer ouderzorg dan bij uitwendige bevruchting.",ans:true,expl:"Correct! Bij inwendige bevruchting investeren ouders meer in minder nakomelingen."},
+  {t:"t5",type:"mcq",q:"Een nadeel van uitwendige bevruchting is:",opts:["Hoge sterfte van nakomelingen","Te weinig eieren","Te veel ouderzorg","Geen water beschikbaar"],ans:0,expl:"Heel veel eitjes gaan verloren — de bevruchting is onzeker en er is meestal geen ouderzorg."},
+  {t:"t5",type:"fill",q:"Bevruchting in het lichaam van het vrouwtje heet _____ bevruchting.",ans:["inwendige"],expl:"Inwendige bevruchting vindt plaats in het lichaam van het vrouwtje."},
+  {t:"t5",type:"mcq",q:"Welke dieren gebruiken meestal uitwendige bevruchting?",opts:["Amfibieën en vissen","Zoogdieren","Vogels","Reptielen"],ans:0,expl:"Amfibieën (kikkers, padden) en vissen leggen hun eieren in water waar de bevruchting plaatsvindt."},
+  {t:"t5",type:"tf",q:"Bij uitwendige bevruchting worden er meestal heel weinig eitjes gelegd.",ans:false,expl:"Fout. Er worden juist heel veel eitjes gelegd om de hoge sterfte te compenseren."},
+
+  // T6: ongeslachtelijk planten
+  {t:"t6",type:"mcq",q:"Een aardappel plant zich ongeslachtelijk voort via:",opts:["Stengelknollen","Bollen","Uitlopers","Wortelstok"],ans:0,expl:"De aardappel is een stengelknol. Uit de 'ogen' groeien nieuwe planten."},
+  {t:"t6",type:"fill",q:"Een dochterplant die genetisch identiek is aan de moederplant noemen we een _____.",ans:["kloon"],expl:"Kloon = genetische kopie met dezelfde erfelijke kenmerken."},
+  {t:"t6",type:"tf",q:"Bij ongeslachtelijke voortplanting is er bevruchting nodig.",ans:false,expl:"Fout. Er zijn geen voortplantingscellen en dus ook geen bevruchting."},
+  {t:"t6",type:"mcq",q:"Wat is 'stekken'?",opts:["Afgesneden plantendeel in water of grond plaatsen voor wortelvorming","Een tak enten op een andere plant","Een bol in de grond planten","Zaden planten"],ans:0,expl:"Stekken = een afgesneden stuk plant in water of vochtige grond → wortels groeien."},
+  {t:"t6",type:"mcq",q:"Een nadeel van ongeslachtelijke voortplanting bij planten is:",opts:["Geen variatie — bij verandering massale sterfte mogelijk","Te veel verschillende nakomelingen","Het duurt heel lang","Er is altijd bestuiving nodig"],ans:0,expl:"Alle nakomelingen zijn identiek. Als de omstandigheden veranderen, kunnen ze allemaal tegelijk sterven."},
+  {t:"t6",type:"mcq",q:"Bij welke plant zie je uitlopers?",opts:["Aardbei","Aardappel","Ui","Gember"],ans:0,expl:"De aardbei maakt bovengrondse uitlopers die wortel schieten en dochterplanten vormen."},
+  {t:"t6",type:"fill",q:"Bij enten noemen we het takje dat wordt vergroeid de _____.",ans:["ent"],expl:"De ent = het takje met knoppen dat op de onderstam wordt gezet."},
+  {t:"t6",type:"tf",q:"Een wortelstok is een ondergrondse stengel.",ans:true,expl:"Correct! Denk aan gember of lelietje-van-dalen."},
+
+  // T7: ongeslachtelijk dieren
+  {t:"t7",type:"mcq",q:"Knopvorming bij dieren is een vorm van:",opts:["Ongeslachtelijke voortplanting","Geslachtelijke voortplanting","Bestuiving","Bevruchting"],ans:0,expl:"Knopvorming = ongeslachtelijk. Een uitstulping groeit uit tot een nieuw individu."},
+  {t:"t7",type:"fill",q:"Bij _____ breekt een deel van het organisme af en groeit uit tot een nieuw dier.",ans:["fragmentatie"],expl:"Fragmentatie = deel breekt af → groeit uit tot compleet nieuw individu."},
+  {t:"t7",type:"mcq",q:"Welk dier plant zich voort via knopvorming?",opts:["Zoetwaterpoliep","Kikker","Olifant","Krokodil"],ans:0,expl:"De zoetwaterpoliep maakt knoppen die afbreken en zelfstandig gaan leven."},
+  {t:"t7",type:"tf",q:"Bij fragmentatie groeien afgebroken delen van een dier uit tot nieuwe individuen.",ans:true,expl:"Correct! Voorbeelden: zeester, platworm, sponsdieren."},
+  {t:"t7",type:"mcq",q:"Een voordeel van ongeslachtelijke voortplanting bij dieren is:",opts:["Snel en geen partner nodig","Veel variatie","Sterke ouderzorg","Hoge overlevingskans bij ziekten"],ans:0,expl:"Het gaat snel en er is geen partner nodig — energiezuinig."},
+  {t:"t7",type:"tf",q:"Steenkoralen vormen kolonies door knopvorming.",ans:true,expl:"Correct! Bij steenkoralen blijft de knop vast aan de ouder → er ontstaat een kolonie."}
+];
+
+// ===== EXERCISE ENGINE =====
+let exScore = 0, exTotal = 0, timerOn = false, timerInterval = null, timerSeconds = 0;
+
+function shuffle(arr) { for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+
+function generateExercises() {
+  exScore = 0; exTotal = 0;
+  const topic = document.getElementById('exTopicSelect').value;
+  let pool = topic==='all' ? [...allQuestions] : allQuestions.filter(q=>q.t===topic);
+  shuffle(pool);
+  const selected = pool.slice(0, Math.min(12, pool.length));
+  exTotal = selected.length;
+
+  const container = document.getElementById('exercisesContainer');
+  container.innerHTML = '';
+
+  selected.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = 'qcard-'+i;
+
+    let html = `<div class="q-number">Vraag ${i+1} / ${selected.length}</div>`;
+    html += `<div class="q-text">${q.q}</div>`;
+
+    if(q.type === 'mcq') {
+      html += `<div class="options">`;
+      // shuffle options but track correct
+      let optIdxs = q.opts.map((_,idx)=>idx);
+      shuffle(optIdxs);
+      optIdxs.forEach(oi => {
+        html += `<button class="opt-btn" onclick="answerMCQ(${i},this,${oi===q.ans},${q.ans},'${optIdxs.join(',')}')">${q.opts[oi]}</button>`;
+      });
+      html += `</div>`;
+    } else if(q.type === 'tf') {
+      html += `<div class="tf-btns">`;
+      html += `<button class="tf-btn" onclick="answerTF(${i},this,true,${q.ans})">WAAR</button>`;
+      html += `<button class="tf-btn" onclick="answerTF(${i},this,false,${q.ans})">NIET WAAR</button>`;
+      html += `</div>`;
+    } else if(q.type === 'fill') {
+      html += `<div><input class="fill-input" id="fill-${i}" placeholder="Typ je antwoord…" onkeydown="if(event.key==='Enter')answerFill(${i})">`;
+      html += `<br><button class="fill-submit" onclick="answerFill(${i})">Controleer</button></div>`;
+    }
+
+    html += `<div class="feedback" id="fb-${i}"></div>`;
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+
+  // store selected for reference
+  container._questions = selected;
+  updateScoreDisplay();
+  updateProgress();
+  if(timerOn) resetTimer();
+}
+
+function answerMCQ(i, btn, isCorrect) {
+  const card = document.getElementById('qcard-'+i);
+  if(card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  const btns = card.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.classList.add('disabled'));
+
+  const q = document.getElementById('exercisesContainer')._questions[i];
+  const fb = document.getElementById('fb-'+i);
+
+  if(isCorrect) {
+    btn.classList.add('chosen-correct');
+    card.classList.add('correct');
+    exScore++;
+    fb.className = 'feedback show ok';
+    fb.textContent = '✓ Juist! ' + q.expl;
+  } else {
+    btn.classList.add('chosen-wrong');
+    card.classList.add('wrong');
+    // highlight correct
+    const correctText = q.opts[q.ans];
+    btns.forEach(b => { if(b.textContent === correctText) b.classList.add('show-correct'); });
+    fb.className = 'feedback show nok';
+    fb.textContent = '✗ Fout. ' + q.expl;
+  }
+  updateScoreDisplay();
+  updateProgress();
+}
+
+function answerTF(i, btn, chosen, correct) {
+  const card = document.getElementById('qcard-'+i);
+  if(card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  const btns = card.querySelectorAll('.tf-btn');
+  btns.forEach(b => b.classList.add('disabled'));
+
+  const q = document.getElementById('exercisesContainer')._questions[i];
+  const fb = document.getElementById('fb-'+i);
+
+  if(chosen === correct) {
+    btn.classList.add('chosen-correct');
+    card.classList.add('correct');
+    exScore++;
+    fb.className = 'feedback show ok';
+    fb.textContent = '✓ Juist! ' + q.expl;
+  } else {
+    btn.classList.add('chosen-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show nok';
+    fb.textContent = '✗ Fout. Het juiste antwoord is: ' + (correct ? 'WAAR' : 'NIET WAAR') + '. ' + q.expl;
+  }
+  updateScoreDisplay();
+  updateProgress();
+}
+
+function answerFill(i) {
+  const card = document.getElementById('qcard-'+i);
+  if(card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  const input = document.getElementById('fill-'+i);
+  const val = input.value.trim().toLowerCase();
+  const q = document.getElementById('exercisesContainer')._questions[i];
+  const fb = document.getElementById('fb-'+i);
+
+  const isCorrect = q.ans.some(a => val === a.toLowerCase());
+  input.disabled = true;
+
+  if(isCorrect) {
+    card.classList.add('correct');
+    exScore++;
+    fb.className = 'feedback show ok';
+    fb.textContent = '✓ Juist! ' + q.expl;
+  } else {
+    card.classList.add('wrong');
+    fb.className = 'feedback show nok';
+    fb.textContent = '✗ Fout. Het juiste antwoord is: ' + q.ans[0] + '. ' + q.expl;
+  }
+  updateScoreDisplay();
+  updateProgress();
+}
+
+function updateScoreDisplay() {
+  const answered = document.querySelectorAll('.question-card.correct, .question-card.wrong').length;
+  document.getElementById('scoreBox').textContent = `Score: ${exScore} / ${answered}`;
+}
+
+// ===== TIMER =====
+function toggleTimer() {
+  timerOn = !timerOn;
+  document.getElementById('timerState').textContent = timerOn ? 'AAN' : 'UIT';
+  if(timerOn) { resetTimer(); }
+  else { clearInterval(timerInterval); document.getElementById('timerDisplay').textContent = '—'; }
+}
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerSeconds = 0;
+  document.getElementById('timerDisplay').textContent = '0:00';
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    const m = Math.floor(timerSeconds/60);
+    const s = (timerSeconds%60).toString().padStart(2,'0');
+    document.getElementById('timerDisplay').textContent = m+':'+s;
+  }, 1000);
+}
+
+// ===== EXAM PDF GENERATION =====
+function downloadExam() {
+  const examQuestions = [
+    {nr:1, q:"Leg het verschil uit tussen geslachtelijke en ongeslachtelijke voortplanting. Geef voor elk minstens twee kenmerken.", pts:4, lines:8},
+    {nr:2, q:"Benoem de drie delen van de stamper en geef bij elk deel de functie.", pts:3, lines:6},
+    {nr:3, q:"Beschrijf het verschil tussen een tweeslachtige en een eenslachtige bloem.", pts:2, lines:4},
+    {nr:4, q:"Leg uit wat bestuiving is. Noem twee manieren van bestuiving.", pts:2, lines:5},
+    {nr:5, q:"Vergelijk insectenbloeiers en windbloeiers. Geef voor elk twee aanpassingen.", pts:4, lines:8},
+    {nr:6, q:"Beschrijf stap voor stap het bevruchtingsproces bij planten (van bestuiving tot bevruchte eicel).", pts:4, lines:10},
+    {nr:7, q:"Wat gebeurt er na de bevruchting? Wat wordt het zaadbeginsel? Wat wordt het vruchtbeginsel?", pts:2, lines:5},
+    {nr:8, q:"Noem drie natuurlijke manieren van ongeslachtelijke voortplanting bij planten en geef bij elke een voorbeeld.", pts:3, lines:6},
+    {nr:9, q:"Leg het verschil uit tussen uitwendige en inwendige bevruchting bij dieren. Geef voor elk een voor- en een nadeel.", pts:4, lines:8},
+    {nr:10, q:"Leg uit wat knopvorming en fragmentatie zijn. Geef bij elk een voorbeeld.", pts:3, lines:6},
+    {nr:11, q:"Waarom kan ongeslachtelijke voortplanting een nadeel zijn als de leefomstandigheden veranderen? Leg uit met de begrippen 'kloon' en 'variatie'.", pts:2, lines:5},
+    {nr:12, q:"Wat is DNA en wat is het verband met variatie bij geslachtelijke voortplanting?", pts:2, lines:5}
+  ];
+
+  // Build HTML for print
+  let html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Examen Voortplanting</title>
+<style>
+@page{size:A4;margin:20mm 18mm;}
+body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000;}
+h1{font-size:16pt;text-align:center;margin-bottom:4px;}
+.header{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:16px;}
+.fields{display:flex;gap:20px;margin-top:8px;font-size:11pt;}
+.fields span{border-bottom:1px solid #000;min-width:180px;display:inline-block;}
+.q{margin-bottom:6px;page-break-inside:avoid;}
+.q-head{font-weight:bold;margin-bottom:2px;}
+.q-pts{float:right;font-size:10pt;color:#555;}
+.lines{border-bottom:1px dotted #999;height:24px;margin:2px 0;}
+.total{text-align:right;font-weight:bold;font-size:13pt;margin-top:16px;border-top:2px solid #000;padding-top:8px;}
+</style></head><body>
+<div class="header">
+<h1>Examen — Voortplanting bij Planten & Dieren</h1>
+<div class="fields">
+<div>Naam: <span>&nbsp;</span></div>
+<div>Klas: <span style="min-width:80px">&nbsp;</span></div>
+<div>Datum: <span style="min-width:120px">&nbsp;</span></div>
+</div>
+</div>`;
+
+  let totalPts = 0;
+  examQuestions.forEach(eq => {
+    totalPts += eq.pts;
+    html += `<div class="q"><div class="q-head">${eq.nr}. ${eq.q} <span class="q-pts">/${eq.pts}</span></div>`;
+    for(let l=0;l<eq.lines;l++) html += `<div class="lines"></div>`;
+    html += `</div>`;
+  });
+
+  html += `<div class="total">Totaal: _____ / ${totalPts}</div>`;
+  html += `</body></html>`;
+
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Examen_Voortplanting.html';
+  a.click();
+}
+
+// ===== CORRECTIF PDF =====
+function downloadCorrectif() {
+  const answers = [
+    {nr:1, pts:4, answer:"Geslachtelijke voortplanting: er zijn voortplantingscellen nodig (mannelijk + vrouwelijk), er vindt bevruchting plaats, er zijn twee ouders nodig, de nakomelingen zijn allemaal verschillend (variatie). Ongeslachtelijke voortplanting: er is maar één ouder nodig, geen voortplantingscellen, geen bevruchting, nakomelingen zijn identieke klonen."},
+    {nr:2, pts:3, answer:"1) Stempel (bovenaan) = kleverig oppervlak waar stuifmeel op landt. 2) Stijl = smal verbindingsstuk waardoor de stuifmeelbuis groeit. 3) Vruchtbeginsel (onderaan) = bevat de zaadbeginsels met eicellen, groeit na bevruchting uit tot een vrucht."},
+    {nr:3, pts:2, answer:"Tweeslachtige bloem = heeft zowel meeldraden als stamper(s) in dezelfde bloem. Eenslachtige bloem = heeft óf meeldraden óf stamper(s), niet allebei."},
+    {nr:4, pts:2, answer:"Bestuiving = het overbrengen van stuifmeel van een meeldraad naar de stempel van een bloem van dezelfde plantensoort. Twee manieren: insectenbestuiving (door insecten) en windbestuiving (door wind)."},
+    {nr:5, pts:4, answer:"Insectenbloeiers: 1) produceren nectar om insecten te lokken, 2) hebben kleurrijke kroonbladeren en nectargidsen, 3) hebben geur. Windbloeiers: 1) produceren veel meer en lichter stuifmeel, 2) hebben onopvallende bloemen (geen kleuren/geur nodig)."},
+    {nr:6, pts:4, answer:"1) Stuifmeelkorrel landt op de kleverige stempel. 2) De korrel vormt een stuifmeelbuis die door de stijl naar het vruchtbeginsel groeit. 3) De spermakern reist door de buis. 4) De stuifmeelbuis bereikt het zaadbeginsel via het poortje. 5) De spermakern versmelt met de eicelkern = bevruchting → bevruchte eicel."},
+    {nr:7, pts:2, answer:"Zaadbeginsel → groeit uit tot een zaad (bevat embryo + zaadlobben met reservevoedsel, beschermd door de zaadhuid). Vruchtbeginsel → groeit uit tot een vrucht (beschermt de zaden en helpt bij verspreiding)."},
+    {nr:8, pts:3, answer:"1) Stengelknollen — bv. aardappel: uit de 'ogen' groeien nieuwe planten. 2) Uitlopers — bv. aardbei: bovengrondse stengels die wortel schieten. 3) Bollen — bv. ui, tulp: knoppen groeien uit. (Ook geldig: wortelstok — bv. gember; broedknoppen — bv. Kalanchoë.)"},
+    {nr:9, pts:4, answer:"Uitwendige bevruchting: buiten het lichaam, in water. Voordeel: groot aantal nakomelingen. Nadeel: hoge sterfte, onzekere bevruchting, geen ouderzorg. Inwendige bevruchting: in het lichaam van het vrouwtje. Voordeel: hogere kans op succesvolle bevruchting, bescherming embryo's, ouderzorg. Nadeel: kleiner aantal nakomelingen, veel energie nodig."},
+    {nr:10, pts:3, answer:"Knopvorming: een uitstulping (knop) groeit uit het lichaam tot een nieuw individu. Bv. zoetwaterpoliep (breekt af) of steenkoralen (vormt kolonie). Fragmentatie: een deel van het organisme breekt af en groeit uit tot een heel nieuw dier. Bv. zeester, platworm."},
+    {nr:11, pts:2, answer:"Bij ongeslachtelijke voortplanting zijn alle nakomelingen klonen (identieke kopieën). Er is geen variatie. Als de leefomstandigheden veranderen (bv. ziekte, klimaat), zijn alle klonen even kwetsbaar → massale sterfte mogelijk. Bij geslachtelijke voortplanting is er wel variatie, waardoor sommige nakomelingen beter aangepast zijn."},
+    {nr:12, pts:2, answer:"DNA = bijzondere molecule in de celkern die erfelijke kenmerken draagt. Bij geslachtelijke voortplanting krijgt elk nakomeling een unieke combinatie van DNA van beide ouders. Hierdoor zijn alle nakomelingen verschillend → variatie binnen de soort."}
+  ];
+
+  let html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Correctiesleutel Voortplanting</title>
+<style>
+@page{size:A4;margin:20mm 18mm;}
+body{font-family:Arial,sans-serif;font-size:11pt;line-height:1.5;color:#000;}
+h1{font-size:15pt;text-align:center;color:#1B5C30;margin-bottom:12px;border-bottom:2px solid #1B5C30;padding-bottom:6px;}
+.a{margin-bottom:14px;page-break-inside:avoid;}
+.a-head{font-weight:bold;color:#1B5C30;}
+.a-pts{font-size:10pt;color:#555;}
+.a-text{margin-top:4px;padding:8px 12px;background:#f0f7f1;border-left:3px solid #2D7D46;border-radius:0 6px 6px 0;}
+.criteria{font-size:10pt;color:#666;margin-top:4px;font-style:italic;}
+</style></head><body>
+<h1>Correctiesleutel — Voortplanting bij Planten & Dieren</h1>`;
+
+  let totalPts = 0;
+  answers.forEach(a => {
+    totalPts += a.pts;
+    html += `<div class="a">
+<div class="a-head">Vraag ${a.nr} <span class="a-pts">(/${a.pts} punten)</span></div>
+<div class="a-text">${a.answer}</div>
+<div class="criteria">Puntenverdeling: ${a.pts > 2 ? 'Per correct element 1 punt. Deelpunten mogelijk.' : 'Volledig antwoord = volle punten. Onvolledig = 1 punt.'}</div>
+</div>`;
+  });
+
+  html += `<div style="margin-top:20px;font-weight:bold;font-size:13pt;border-top:2px solid #1B5C30;padding-top:8px;text-align:right;">Totaal: / ${totalPts}</div>`;
+  html += `</body></html>`;
+
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Correctiesleutel_Voortplanting.html';
+  a.click();
+}
+</script>
+</body>
+</html>
